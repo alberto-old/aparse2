@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+	<meta charset=UTF-8>
+	<meta name=viewport content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<title>Applying Parse, the bonus and lazier way</title>
+	
+	<!-- Jquery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+	<!-- Plugins -->
+	<link rel="stylesheet" type="text/css" href="css/igloos.css">
+	
+	<!-- Your extension -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body class=wrapper>
+
+	<div class=header>
+		<h1>Applying Parse, the bonus and lazier way</h1>
+	</div>
+
+	<div class=grids>
+		<div class="grid-5 island promo" style="padding: 5px; margin-left: 13px; margin-top: 21px">
+			<p>
+			Recently I wrote a post about a simple program I wrote in Ruby to simplify applying Parse through POST, you can find it <a href="http://alberto.calepin.co/applying-parse-the-bonus-and-lazy-way.html">here</a>. 
+			</p>
+
+			<p>
+			It was as simpler as filling out a file and execute the program in Ruby. 
+			</p>
+
+			<p>
+			This time it will be even simpler. Just fill out this form and click the "Apply" button.
+			</p>
+
+			<p>
+			What do I want to achieve with this?
+			<ol>
+				<li>Have fun implementing it using HTML5 and JQuery</li>
+				<li>Make it easier for you to apply Parse (just my 2 cents to thank them for their wonderful API)</li>
+			</ol>
+			
+   	        <div>
+				<a href="https://twitter.com/alberto_villa" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @alberto_villa</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+				</script>
+				</br>
+				</br>
+	        </div>
+
+	        <div class="island promo">
+	        	<div><p><b>Note:</b>This form will perform a Cross-Domain POST to Parse which is not easily handled only client-side; please check the Console to see the OK 200 response from the server</p></div>
+	        	<div id="result"><p>Application not yet sent</p></div>
+	        </div>
+		</div>
+
+		<div class=grid-5>
+			<form id="applyForm" action="https://www.parse.com/jobs">
+		      <ul>
+		        
+		        <li>
+		        	<label>Name:</label>
+		        	<input type="text" id="name" name="name" size="40" placeholder="Your name" required/>
+		        </li>
+		        
+		        <li>
+		        	<label>Email:</label>
+		        	<input type="email" id="email" name="email"size="40" placeholder="Your email address" required/>
+		        </li>
+		        
+		        <li>
+		        	<label>About:</label>
+		        	<textarea id="about" name="about" cols="40" rows="5"placeholder="Describe why you think Parse is a great fit for you" required></textarea>
+		        </li>
+		        
+
+		        <li>
+		        	<label>URLs:</label>
+		        	<textarea id="urls" name="urls" cols="40" rows="5" placeholder="Relevant links to your resume, website, or your code samples (one per line) " required></textarea>
+		        </li>
+		                
+		        <li>
+		          <input type="submit" value="Apply" />
+		        </li>
+		      </ul>
+		    </form>
+
+		</div>
+	</div>
+	
+	<script>
+	  
+	/* Attach handler to form applyForm */
+	$("#applyForm").submit(function(event) {
+
+		var response = null;
+
+	    /* Stop form from submitting normally */
+	    event.preventDefault(); 
+	        
+	    /* Get values from the form elements */
+	    var $form = $( this );
+	    var name_value   = $form.find('input[name="name"]').val();
+	    var email_value  = $form.find('input[name="email"]').val();
+	    var about_value  = $form.find('textarea[name="about"]').val();
+	    var urls_value   = $form.find('textarea[name="urls"]').val().split("\n");	  
+
+	    var applicant_data = { name: name_value, email: email_value, about: about_value, urls: urls_value };	    
+	    
+	    $.ajax({
+        	url: $form.attr('action'),
+        	type: "post",
+        	data: JSON.stringify (applicant_data),
+        	// callback handler that will be called on success
+        	success: function(response, textStatus, jqXHR){
+            	// log a message to the console
+            	alert("Hooray, it worked!");
+        	},
+    	});
+
+    	$("#result").text("Application sent");
+
+	});
+
+	</script>
+
+</body>
+
+</html>
