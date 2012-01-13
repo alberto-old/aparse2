@@ -11,7 +11,7 @@ What do I want to achieve with this?
 
 ## Applying 
 
-You can apply using this form: http://alberto-villa.com/aparse/apply.html or you may just download the filex and apply using the local files.
+You can apply using this form: http://alberto-villa.com/aparse/apply.html or you may just download the project files and apply using them locally.
 
 ## Issues
 
